@@ -43,8 +43,17 @@ function withReactStrictDOM(nextConfig: NextConfig) {
         ...nextConfig.turbopack?.rules,
         '*.{js,jsx,ts,tsx}': {
             loaders: [getReactStrictDOMBabelLoader()],
+            condition: {
+              not: {
+                path: /node_modules(?!\/react-strict-dom)/,
+              },
+            },
         },
       },
+    },
+    experimental: {
+      ...nextConfig.experimental,
+      turbopackUseBuiltinBabel: false,
     },
     webpack(
       ...[config, context]: Parameters<NonNullable<NextConfig['webpack']>>

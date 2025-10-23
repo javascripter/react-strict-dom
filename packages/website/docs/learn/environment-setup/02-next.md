@@ -94,8 +94,16 @@ const nextConfig: NextConfig = {
     rules: {
       "*.{js,jsx,ts,tsx}": {
         loaders: [getBabelLoader()],
+        condition: { // Omit this block if using Next.js <16.0
+          not: {
+            path: /node_modules(?!\/react-strict-dom)/,
+          },
+        },
       },
     },
+  },
+  experimental: { // Omit this block if using Next.js <16.0
+    turbopackUseBuiltinBabel: false,
   },
 
   webpack: (config, { webpack }) => {
